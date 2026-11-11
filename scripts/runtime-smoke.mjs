@@ -84,10 +84,27 @@ try {
     args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
   });
   const page = await browser.newPage();
-  page.on('console', (msg) => {
+  page.on('console', async (msg) => {
     const loc = msg.location();
     const where = loc && loc.url ? ` @ ${loc.url}:${loc.lineNumber || ''}` : '';
-    const text = `${msg.text()}${where}`.slice(0, 800);
+    let extra = '';
+    try {
+      const args = await Promise.all(
+        msg.args().map((a) =>
+          a.evaluate((v) => {
+            if (v instanceof Error) return `[Error] ${v.message}\n${v.stack || ''}`;
+            if (v && typeof v === 'object') {
+              try { return JSON.stringify(v).slice(0, 400); } catch { return String(v); }
+            }
+            return v == null ? String(v) : String(v);
+          }),
+        ),
+      );
+      extra = args.filter(Boolean).join(' | ');
+    } catch {
+      /* arg inspection is best-effort */
+    }
+    const text = `${msg.text()}${where}${extra ? ` || ${extra}` : ''}`.slice(0, 1200);
     if (msg.type() === 'error') errors.push(text);
     else if (msg.type() === 'warning') warnings.push(text);
   });
