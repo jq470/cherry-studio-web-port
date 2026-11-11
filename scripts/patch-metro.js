@@ -42,6 +42,8 @@ const SHIMS = {
   'react-native-share': 'react-native-share.web.js',
   'react-native-webview': 'react-native-webview.web.js',
   '@magrinj/expo-quick-look': 'expo-quick-look.web.js',
+  // RN internal subpath: pulls the native RN core onto web; stub it out.
+  'react-native/Libraries/promiseRejectionTrackingOptions': 'promise-rejection-tracking.web.js',
 };
 
 const mapLiteral = Object.entries(SHIMS)
