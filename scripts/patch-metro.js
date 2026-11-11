@@ -53,6 +53,19 @@ ${mapLiteral}
 };
 ${ANCHOR}
   if (platform === 'web') {
+    // react-native-web 0.21.4 resolves InputAccessoryView as a directory entry that
+    // Metro fails to find under some pnpm layouts, which aborts the web bundle:
+    //   Unable to resolve "./exports/InputAccessoryView" from react-native-web/dist/index.js
+    // Take that one path over explicitly instead of patching node_modules.
+    if (
+      moduleName === './exports/InputAccessoryView' &&
+      context.originModulePath.includes('react-native-web')
+    ) {
+      return {
+        type: 'sourceFile',
+        filePath: path.join(__dirname, 'src/web-shims', 'rnw-input-accessory-view.web.js'),
+      };
+    }
     const shimFile = webShimMap[moduleName];
     if (shimFile) {
       return {
