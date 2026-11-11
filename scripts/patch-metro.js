@@ -47,7 +47,12 @@ const mapLiteral = Object.entries(SHIMS)
   .map(([mod, file]) => `      '${mod}': '${file}',`)
   .join('\n');
 
-const injection = `// Native-only modules have a browser implementation under src/web-shims.
+const injection = `// expo-sqlite's browser worker imports wa-sqlite.wasm and passes it to
+// locateFile; Metro only accepts that import when wasm is an asset extension,
+// otherwise the whole web bundle fails with "Unable to resolve ... wa-sqlite.wasm".
+config.resolver.assetExts.push('wasm');
+
+// Native-only modules have a browser implementation under src/web-shims.
 const webShimMap = {
 ${mapLiteral}
 };
