@@ -154,10 +154,11 @@ jobs:
           SMOKE_URL: http://127.0.0.1:8099/
           SMOKE_REPORT: ${{ github.workspace }}/runtime-smoke.md
         run: |
+          npm i --prefix "$GITHUB_WORKSPACE" --no-save --no-audit --no-fund puppeteer-core@24 >/dev/null
           python3 -m http.server 8099 --directory dist-web >/dev/null 2>&1 &
           SRV=$!
           sleep 2
-          npx -y puppeteer-core@24 node ../scripts/runtime-smoke.mjs || true
+          node ../scripts/runtime-smoke.mjs || true
           kill $SRV 2>/dev/null || true
 
       - name: Publish build report
