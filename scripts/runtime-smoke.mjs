@@ -110,7 +110,7 @@ try {
   });
   page.on('pageerror', (err) => {
     const stack = err && err.stack ? String(err.stack) : String(err);
-    errors.push(`PAGEERROR: ${stack.slice(0, 1200)}`);
+    errors.push(`PAGEERROR: ${stack.slice(0, 2400)}`);
   });
   page.on('requestfailed', (req) => {
     const f = req.failure();
@@ -145,9 +145,10 @@ try {
   report += section('console warnings', warnings.slice(0, 15));
   report += section('failed requests', failedRequests.slice(0, 25));
 
-  // Resolve any Metro "unknown module <id>" against the actual bundle: check
-  // whether the id was registered, and dump the surrounding caller context so
-  // the originating source file is identifiable from the report alone.
+  // Resolve any Metro "unknown module <id>" against the actual bundle: parse
+  // every __d(id, [deps], "sourcePath") header, map the missing id to its own
+  // source path (if registered) and to the parent modules that require it, so
+  // the originating package is named directly in the report.
   try {
     const missingIds = new Set();
     for (const e of errors) {
@@ -158,20 +159,26 @@ try {
       const scripts = await page.evaluate(() =>
         Array.from(document.scripts).map((s) => s.src).filter(Boolean),
       );
-      const lines = [];
+      const idToPath = new Map();
+      const depUsers = new Map();
       for (const u of scripts) {
         const txt = await page.evaluate(async (x) => (await fetch(x)).text(), u);
-        const registered = new Set(
-          [...txt.matchAll(/,\s*(\d+)\s*,\s*\[/g)].map((m) => m[1]),
-        );
-        for (const id of missingIds) {
-          lines.push(`${u.split('/').pop()}: module ${id} ${registered.has(id) ? 'registered' : 'NOT registered'}`);
-          const mm = new RegExp(`require\\(\\s*${id}\\s*\\)`).exec(txt);
-          if (mm) {
-            const ctx = txt.slice(Math.max(0, mm.index - 700), mm.index + 120);
-            lines.push(`caller context:\n\`\`\`\n${ctx}\n\`\`\``);
+        const hdr = /\},\s*(\d+)\s*,\s*\[([^\]]*)\]\s*,\s*"([^"]*)"/g;
+        let h;
+        while ((h = hdr.exec(txt))) {
+          const [, id, deps, p] = h;
+          idToPath.set(id, p);
+          for (const d of deps.match(/\d+/g) || []) {
+            if (!depUsers.has(d)) depUsers.set(d, new Set());
+            depUsers.get(d).add(p);
           }
         }
+      }
+      const lines = [];
+      for (const id of missingIds) {
+        lines.push(`module ${id}: ${idToPath.get(id) || 'NOT registered'}`);
+        const parents = [...(depUsers.get(id) || [])];
+        if (parents.length) lines.push(`required by: ${parents.slice(0, 5).join('; ')}`);
       }
       report += section('unknown-module analysis', lines.slice(0, 20));
     }
