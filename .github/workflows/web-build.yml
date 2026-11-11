@@ -15,19 +15,29 @@ env:
 jobs:
   build-web:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
+    permissions:
+      contents: write
     steps:
       - name: Checkout overlay repo
         uses: actions/checkout@v4
 
       - name: Checkout upstream at pinned ref
         run: |
-          git clone https://github.com/${{ env.UPSTREAM_REPO }}.git upstream
+          git clone --filter=blob:none https://github.com/${{ env.UPSTREAM_REPO }}.git upstream
           cd upstream
           git checkout "${{ env.UPSTREAM_REF }}"
+          echo "upstream HEAD: $(git rev-parse HEAD)"
 
       - name: Apply web overlay
         run: bash scripts/apply-overlay.sh
+
+      - name: Show applied web config
+        working-directory: upstream
+        run: |
+          node -e "console.log('expo.web =', JSON.stringify(require('./app.json').expo.web))"
+          grep -c "web-shims" metro.config.js
+          ls src/web-shims | wc -l
 
       - name: Setup Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -38,17 +48,67 @@ jobs:
         run: |
           corepack enable
           corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+          pnpm --version
 
       - name: Install dependencies
         working-directory: upstream
+        env:
+          CI: 1
         run: pnpm install --no-frozen-lockfile
 
-      - name: Export web static bundle
+      - name: Export web bundle
         working-directory: upstream
         env:
           PROFILE: production
           EXPO_NO_TELEMETRY: 1
-        run: npx expo export --platform web --output-dir dist-web
+        run: |
+          set -o pipefail
+          npx expo export --platform web --output-dir dist-web 2>&1 | tee "$GITHUB_WORKSPACE/export.log"
+
+      - name: Surface export failure
+        if: failure()
+        run: |
+          echo "::error::export failed - last log lines follow (annotations are public, full log needs sign-in)"
+          if [ -f export.log ]; then
+            tail -n 40 export.log | while IFS= read -r line; do
+              line="${line//%/%25}"
+              line="${line//$'\r'/}"
+              echo "::error::${line}"
+            done
+          else
+            echo "::error::export.log missing"
+          fi
+
+      - name: Publish export log on failure
+        if: failure()
+        run: |
+          {
+            echo "run: $GITHUB_RUN_ID"
+            echo "commit: $GITHUB_SHA"
+            echo
+            echo '```'
+            if [ -f export.log ]; then tail -n 400 export.log; else echo "export.log missing"; fi
+            echo '```'
+          } > export-failure.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add export-failure.md
+          git commit -m "ci: record export failure [skip ci]" || exit 0
+          # checkout runs detached on push events, so name the branch explicitly
+          git push origin HEAD:main || echo "::warning::could not push failure log"
+
+      - name: Verify bundle output
+        working-directory: upstream
+        run: |
+          test -d dist-web || { echo "::error::dist-web/ was not created"; exit 1; }
+          echo "--- dist-web tree (top level) ---"
+          ls -la dist-web
+          size=$(du -sm dist-web | cut -f1)
+          echo "bundle size: ${size} MB"
+          html=$(find dist-web -maxdepth 1 -name '*.html' | wc -l)
+          echo "html entry files: ${html}"
+          test "$html" -ge 1 || { echo "::error::no html entry in dist-web"; exit 1; }
+          if [ "$size" -lt 1 ]; then echo "::error::bundle suspiciously small"; exit 1; fi
 
       - name: Upload web bundle artifact
         uses: actions/upload-artifact@v4

@@ -11,15 +11,18 @@
 ```json
 "web": { "output": "static", "favicon": "./assets/icon.png" }
 ```
-`scripts/patch-app-json.js` 在**原地**合并两个键，不新增第二个 `web` 块：
+`scripts/patch-app-json.js` 在**原地**合并键，不新增第二个 `web` 块：
 ```json
 "web": {
-  "output": "static",
+  "output": "single",
   "favicon": "./assets/icon.png",
   "bundler": "metro",
   "name": "Cherry Studio Web"
 }
 ```
+
+`output` 从上游的 `static` 改成 `single`：`static` 会在导出阶段用 Node 预渲染每个路由，而这套代码按原生写，模块顶层大量访问 `window`/`document`/`localStorage`，预渲染必崩。`single` 是纯客户端渲染的 SPA。
+
 > 注意：JSON 里重复的 `web` 键会让后者覆盖前者，`bundler` 会丢。脚本会先检查重复键，发现就报错退出。
 
 ### 2. `metro.config.js` —— 只插一段 resolver 重定向
@@ -64,7 +67,7 @@
 
 - **Expo 自带 web 回退**：`expo-sqlite`、`expo-file-system`、`expo-secure-store`、`expo-clipboard`、`expo-haptics`、`expo-sharing`、`expo-localization`、`expo-splash-screen`、`expo-notifications`（部分）。
 - **纯 JS / RN 原语，RNW 可直接渲染**：`react-native-reanimated`、`react-native-worklets`、`react-native-streamdown`、`react-native-ui-datepicker`、`heroui-native`（provider 为上下文 + RN 原语）。
-- **类型-only import，编译期擦除，无运行时依赖**：`react-native-anydoc`、`react-native-background-actions`。
+- **类型-only import，编译期擦除，无运行时依赖**：`react-native-anydoc`、`react-native-background-actions`、`ReservedRegion`（来自 `react-native-reserved-regions`，只在 `import type` 里出现）。
 - **仅 `.ios.tsx` / `.android` 文件引用，web 不加载**：`expo-widgets`、`@expo/ui`、部分背景活动组件。
 - **`@cherrystudio/*` 原生模块**：走 `requireOptionalNativeModule`，web 下自动返回 null。
 
@@ -106,7 +109,8 @@ App 的 Provider Base URL 填：`http://localhost:8787/https://<上游域名>/v1
 - **MCP stdio / 系统级集成 / 后台任务 / 桌面小组件**：浏览器沙箱不支持，仅保留远程 HTTP/SSE 类型 MCP。
 - **数据持久化**：Web 落在 OPFS（SQLite）+ localStorage（KV 桩）；隐私模式下 OPFS 可能不持久。
 
-## 六、尚未验证
+## 六、验证状态
 
-- 16 个桩通过语法检查，代理在 Node 18+ 实测通过（预检 / GET / POST / 鉴权头 / 查询串 / SSE 透传）。
-- **整套 bundle 与浏览器运行时尚未验证**：本地沙箱句柄上限 2048 锁死（root 也提不上去，bounding set 无 `CAP_SYS_RESOURCE`），Metro 打包必崩 EMFILE。首次真实构建与浏览器验证由本仓库的 GitHub Actions 完成。
+- 16 个桩通过语法检查；代理在 Node 18+ 实测通过（预检 / GET / POST / 鉴权头 / 查询串 / SSE 透传）。
+- 两个配置补丁在上游原始文件上实测：补丁可打、幂等、metro 语法通过、app.json 无重复键。
+- 整套 bundle 与浏览器运行时由本仓库的 GitHub Actions 验证。

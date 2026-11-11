@@ -25,10 +25,10 @@ overlay/
   WEB-ADAPTATION.md           # 完整改动记录 + 待观察清单 + Web 天生限制
 scripts/
   apply-overlay.sh            # 总装脚本
-  patch-app-json.js           # 往 app.json 的 expo.web 合并 bundler/name（幂等、查重键）
+  patch-app-json.js           # 往 app.json 的 expo.web 合并 bundler/output/name（幂等、查重键）
   patch-metro.js              # 往 metro.config.js 的 resolver 注入 web 桩映射（幂等）
 .github/workflows/
-  web-build.yml               # 安装依赖 + 导出 web 静态包 + 上传 artifact
+  web-build.yml               # 安装依赖 + 导出 web 包 + 上传 artifact（失败时把日志回写仓库）
 ```
 
 ## 16 个 Web 桩覆盖的原生模块
@@ -43,7 +43,16 @@ scripts/
 
 ## 拿产物
 
-CI 跑完后到 **Actions → web-build → 最新运行 → Artifacts** 下载 `cherry-studio-web.zip`，解压即静态站点，丢任何静态托管（Cloudflare Pages / Vercel / Netlify）都能跑。
+CI 跑完后到 **Actions → web-build → 最新运行 → Artifacts** 下载 `cherry-studio-web.zip`，解压即静态站点。
+
+产物是 **SPA（`output: single`）**：一个 `index.html` + JS/CSS 资源，路由在客户端解析。部署时记得开 **SPA 回退**（所有未匹配路径都返回 `index.html`）：
+
+- Cloudflare Pages：默认支持，无需配置
+- Vercel：`{"rewrites":[{"source":"/all","destination":"/index.html"}]}`
+- Netlify：`[[redirects]]  from = "/*"  to = "/index.html"  status = 200`
+- Nginx：`try_files $uri $uri/ /index.html;`
+
+> 为什么不是 `output: static`：那会在导出时用 Node 预渲染每个路由，而这套代码是给原生写的，大量 `window`/`document`/`localStorage` 在模块顶层访问，预渲染必崩。`single` 完全在浏览器里渲染，绕开这一类问题。
 
 ## 本地跑（可选）
 
