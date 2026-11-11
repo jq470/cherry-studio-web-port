@@ -1,99 +1,99 @@
 # Runtime smoke report
 
 - url: http://127.0.0.1:8099/
-- time: 2026-11-11T16:54:29.797Z
+- time: 2026-11-11T23:28:21.833Z
 
 ## page
 
 - title: Cherry Studio Web
-- #root children: 0
-- html length: 204467
+- #root children: 1
+- html length: 200458
 
 ## body excerpt
 
 ```
-(empty)
+Cherry Studio couldn't start
+Something stopped the app from starting. Try again. If this keeps happening, close Cherry Studio completely and reopen it.
+Retry
 ```
 
 
 ## root excerpt
 
 ```
-<div id="root"></div>
+<div id="root"><div class="css-view-g5y9jx r-flex-13awgt0"><div class="css-view-g5y9jx r-flex-13awgt0"><div class="css-view-g5y9jx flex-1"><div class="css-view-g5y9jx r-flex-13awgt0"><div class="css-view-g5y9jx flex-1"><div class="css-view-g5y9jx r-flex-13awgt0"><div class="css-view-g5y9jx r-flex-13
 ```
 
 ## console errors
 
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244529
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
     at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244529
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
     at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244529
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
-    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
-    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
-    at metroReq
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244529
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
     at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
 - Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
-- Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
-    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
-    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
-    at metroReq
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242273 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4976". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
     at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
 - Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
-- Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244529
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242634
-- PAGEERROR: Error: Your web project is importing a module from 'react-native' instead of 'react-native-web'. Learn more: https://expo.fyi/fb-batched-bridge-config-web
-    at get (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:241605:17)
-    at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376526:33)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:321:16)
-    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:217:14)
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
+    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
+    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
-    at requireModule (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376419:26)
-    at getEnforcing (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376429:20)
-    at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376395:38)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web
+    at metroReq
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4913". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
+    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
+    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
+    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
+    at metroReq
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242640
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 404 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244535
 - Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
 - Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
-- Failed to load resource: the server responded with a status of 404 (File not found) @ http://127.0.0.1:8099/_expo/error-overlay-meta:
+- [AppBootstrap] Application initialization failed TypeError: this.validatePath is not a function [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242279 || [AppBootstrap] Application initialization failed | [Error] this.validatePath is not a function
+TypeError: this.validatePath is not a function
+    at new Directory (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:1955:12)
+    at get document (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:1113:14)
+    at getStorageBoot (eval at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244906:16), <anonymous>:9262:126)
+    at Object.initialize (eval at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244906:16), <anonymous>:1114:99)
+    at initializeApp (eval at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244906:16), <anonymous>:875:21)
+    at t3 (eval at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244906:16), <anonymo
+- Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
+- Failed to load resource: the server responded with a status of 501 (Unsupported method ('POST')) @ http://127.0.0.1:8099/symbolicate:
 ## console warnings
 
 _(none)_
@@ -101,13 +101,9 @@ _(none)_
 
 - GET http://127.0.0.1:8099/ net::ERR_ABORTED
 - GET http://127.0.0.1:8099/ net::ERR_ABORTED
-- GET http://127.0.0.1:8099/ net::ERR_ABORTED
-- GET http://127.0.0.1:8099/ net::ERR_ABORTED
 ## unknown-module analysis
 
-- __expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js: module 4976 NOT registered
-- __common-ce997bdf21cab8cc2270f8c79748fa1c.js: module 4976 NOT registered
-- index-8be6aaf3afaf928efd06b2317a59f07f.js: module 4976 NOT registered
+- module 4913: NOT registered
 
 ## source snippets
 
@@ -147,65 +143,29 @@ _(none)_
 124:   // We print require cycles unless they match a pattern in the
 ```
 
-- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:241605:17
+- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:1955:12
 ```
-241603:       Object.defineProperty(globalThis, '__fbBatchedBridgeConfig', {
-241604:         get() {
-241605:           throw new Error("Your web project is importing a module from 'react-native' instead of 'react-native-web'. Learn more: https://expo.fyi/fb-batched-bridge-config-web");
-241606:         }
-241607:       });
-```
-
-- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376526:33
-```
-376524:     NativeModules = global.nativeModuleProxy;
-376525:   } else {
-376526:     const bridgeConfig = global.__fbBatchedBridgeConfig;
-376527:     require(_dependencyMap[0], "invariant")(bridgeConfig, '__fbBatchedBridgeConfig is not set, cannot invoke native modules');
-376528:     const defineLazyObjectProperty = require(_dependencyMap[2], "../Utilities/defineLazyObjectProperty").default;
+1953:     constructor(...uris) {
+1954:       super(require(_dependencyMap[1], "./Paths").Paths.join(...uris));
+1955:       this.validatePath();
+1956:     }
+1957:     /*
 ```
 
-- http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:321:16
+- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:1113:14
 ```
-319:       // metro/src/Resolver/index.js
-320:       // and metro/src/ModuleGraph/worker.js
-321:       factory?.(global, metroRequire, metroImportDefault, metroImportAll, moduleObject, moduleObject.exports, dependencyMap);
-322:       // avoid removing factory in DEV mode as it breaks HMR
-323:       if (!__DEV__) {
-```
-
-- http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:217:14
-```
-215:       return returnValue;
-216:     } else {
-217:       return loadModuleImplementation(moduleId, module, moduleIdHint);
-218:     }
-219:   }
+1111:     */
+1112:     static get document() {
+1113:       return new (require(_dependencyMap[2], "./Directory").Directory)(ExpoFileSystem.default.documentDirectory);
+1114:     }
+1115:     static get appleSharedContainers() {
 ```
 
-- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376419:26
+- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:244906:16
 ```
-376417:       }
-376418:     }
-376419:     const legacyModule = require(_dependencyMap[1], "../BatchedBridge/NativeModules").default[name];
-376420:     if (legacyModule != null) {
-376421:       return legacyModule;
-```
-
-- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376429:20
-```
-376427:   }
-376428:   function getEnforcing(name) {
-376429:     const module = requireModule(name);
-376430:     (0, invariant.default)(module != null, `TurboModuleRegistry.getEnforcing(...): '${name}' could not be found. ` + 'Verify that a module by this name is registered in the native binary.');
-376431:     return module;
-```
-
-- http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:376395:38
-```
-376393:   });
-376394:   var TurboModuleRegistry = _interopNamespace(require(_dependencyMap[0], "../../../../Libraries/TurboModule/TurboModuleRegistry"));
-376395:   var _default = TurboModuleRegistry.getEnforcing('UIManager');
-376396: },2975,[2976],"node_modules/.pnpm/react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4fa2e939afe917e558dd9803b888f5ebc2f_f696afd80fbccc38ddff775b2b0cdd18/node_modules/react-native/src/private/specs_DEPRECATED/modules/NativeUIManager.js");
-376397: __d(function (global, require, _$$_IMPORT_DEFAULT, _$$_IMPORT_ALL, module, exports, _dependencyMap) {
+244904:       if (status === 200) {
+244905:         // eslint-disable-next-line no-eval
+244906:         return eval(body);
+244907:       } else {
+244908:         // Format Metro errors if possible.
 ```
