@@ -1,0 +1,13 @@
+{
+  "name": "cherry-web-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zero-dependency local CORS proxy for Cherry Studio Web",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
