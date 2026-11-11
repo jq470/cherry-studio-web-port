@@ -1,0 +1,58 @@
+name: web-build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  UPSTREAM_REPO: CherryHQ/cherry-studio-app
+  # Pinned upstream commit this overlay was built against (local clone HEAD).
+  UPSTREAM_REF: a0cddfa51026675abe69b7a7b9ee37a529ac4e32
+  NODE_VERSION: 24
+  PNPM_VERSION: 12.2.1
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout overlay repo
+        uses: actions/checkout@v4
+
+      - name: Checkout upstream at pinned ref
+        run: |
+          git clone https://github.com/${{ env.UPSTREAM_REPO }}.git upstream
+          cd upstream
+          git checkout "${{ env.UPSTREAM_REF }}"
+
+      - name: Apply web overlay
+        run: bash scripts/apply-overlay.sh
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable pnpm ${{ env.PNPM_VERSION }}
+        run: |
+          corepack enable
+          corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+
+      - name: Install dependencies
+        working-directory: upstream
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Export web static bundle
+        working-directory: upstream
+        env:
+          PROFILE: production
+          EXPO_NO_TELEMETRY: 1
+        run: npx expo export --platform web --output-dir dist-web
+
+      - name: Upload web bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cherry-studio-web
+          path: upstream/dist-web
+          retention-days: 14
