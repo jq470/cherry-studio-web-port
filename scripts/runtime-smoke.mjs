@@ -127,6 +127,35 @@ try {
   report += section('console errors', errors.slice(0, 25));
   report += section('console warnings', warnings.slice(0, 15));
   report += section('failed requests', failedRequests.slice(0, 25));
+
+  // Pull a source snippet around every in-bundle stack frame so the failing
+  // require/import is readable even without loading source maps in the browser.
+  const snippets = [];
+  const seenFrames = new Set();
+  for (const err of errors) {
+    const re = /(https?:\/\/\S+?):(\d+):(\d+)/g;
+    let m;
+    while ((m = re.exec(err))) {
+      const [, url, lineStr, colStr] = m;
+      const line = Number(lineStr);
+      const key = `${url}:${line}:${colStr}`;
+      if (seenFrames.has(key)) continue;
+      seenFrames.add(key);
+      try {
+        const txt = await page.evaluate(async (u) => (await fetch(u)).text(), url);
+        const lines = txt.split('\n');
+        const i = Math.max(0, line - 1);
+        const win = [];
+        for (let k = i - 2; k <= i + 2; k++) {
+          if (lines[k]) win.push(`${k + 1}: ${lines[k].slice(0, 320)}`);
+        }
+        snippets.push(`- ${key}\n\`\`\`\n${win.join('\n')}\n\`\`\``);
+      } catch (e) {
+        snippets.push(`- ${key} (fetch failed: ${e.message})`);
+      }
+    }
+  }
+  if (snippets.length) report += `\n## source snippets\n\n${snippets.join('\n\n')}\n`;
 } catch (e) {
   report += section('fatal', [String(e && e.message || e).slice(0, 600)]);
 } finally {
