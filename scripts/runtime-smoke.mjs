@@ -145,6 +145,40 @@ try {
   report += section('console warnings', warnings.slice(0, 15));
   report += section('failed requests', failedRequests.slice(0, 25));
 
+  // Resolve any Metro "unknown module <id>" against the actual bundle: check
+  // whether the id was registered, and dump the surrounding caller context so
+  // the originating source file is identifiable from the report alone.
+  try {
+    const missingIds = new Set();
+    for (const e of errors) {
+      const m = /unknown module "(\d+)"/.exec(e);
+      if (m) missingIds.add(m[1]);
+    }
+    if (missingIds.size) {
+      const scripts = await page.evaluate(() =>
+        Array.from(document.scripts).map((s) => s.src).filter(Boolean),
+      );
+      const lines = [];
+      for (const u of scripts) {
+        const txt = await page.evaluate(async (x) => (await fetch(x)).text(), u);
+        const registered = new Set(
+          [...txt.matchAll(/,\s*(\d+)\s*,\s*\[/g)].map((m) => m[1]),
+        );
+        for (const id of missingIds) {
+          lines.push(`${u.split('/').pop()}: module ${id} ${registered.has(id) ? 'registered' : 'NOT registered'}`);
+          const mm = new RegExp(`require\\(\\s*${id}\\s*\\)`).exec(txt);
+          if (mm) {
+            const ctx = txt.slice(Math.max(0, mm.index - 700), mm.index + 120);
+            lines.push(`caller context:\n\`\`\`\n${ctx}\n\`\`\``);
+          }
+        }
+      }
+      report += section('unknown-module analysis', lines.slice(0, 20));
+    }
+  } catch (e) {
+    report += section('unknown-module analysis', [`failed: ${e.message}`]);
+  }
+
   // Pull a source snippet around every in-bundle stack frame so the failing
   // require/import is readable even without loading source maps in the browser.
   const snippets = [];
