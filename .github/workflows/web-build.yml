@@ -54,7 +54,19 @@ jobs:
         working-directory: upstream
         env:
           CI: 1
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify resolved web deps
+        working-directory: upstream
+        run: |
+          node -e "console.log('react-native-web:', require('react-native-web/package.json').version)"
+          node -e "console.log('react-dom:', require('react-dom/package.json').version)"
+          node -e "console.log('expo:', require('expo/package.json').version)"
+          # 0.21.4 ships dist/exports/InputAccessoryView/index.js; later 0.21.x dropped
+          # it while dist/index.js still imports that path, which breaks the web bundle.
+          test -e node_modules/react-native-web/dist/exports/InputAccessoryView/index.js \
+            -o -e node_modules/react-native-web/dist/exports/InputAccessoryView.js \
+            || { echo "::error::react-native-web lost dist/exports/InputAccessoryView; lockfile drifted from 0.21.4"; exit 1; }
 
       - name: Export web bundle
         working-directory: upstream
