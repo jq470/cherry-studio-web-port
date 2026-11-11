@@ -127,7 +127,7 @@ jobs:
           test "$html" -ge 1 || { echo "::error::no html entry in dist-web"; exit 1; }
           if [ "$size" -lt 1 ]; then echo "::error::bundle suspiciously small"; exit 1; fi
 
-      - name: Smoke test static bundle
+      - name: Static smoke test bundle
         working-directory: upstream
         run: |
           python3 -m http.server 8099 --directory dist-web >/dev/null 2>&1 &
@@ -147,6 +147,19 @@ jobs:
           fi
           kill $SRV
 
+      - name: Runtime smoke (headless Chromium)
+        working-directory: upstream
+        continue-on-error: true
+        env:
+          SMOKE_URL: http://127.0.0.1:8099/
+          SMOKE_REPORT: ${{ github.workspace }}/runtime-smoke.md
+        run: |
+          python3 -m http.server 8099 --directory dist-web >/dev/null 2>&1 &
+          SRV=$!
+          sleep 2
+          npx -y puppeteer-core@24 node ../scripts/runtime-smoke.mjs || true
+          kill $SRV 2>/dev/null || true
+
       - name: Publish build report
         if: success()
         run: |
@@ -156,8 +169,6 @@ jobs:
             echo "- run: $GITHUB_RUN_ID"
             echo "- commit: $GITHUB_SHA"
             echo "- upstream: CherryHQ/cherry-studio-app@a0cddfa + this overlay"
-            echo
-            echo "- run: $GITHUB_RUN_ID"
             echo
             echo "## dist-web top level"
             echo '```'
@@ -179,6 +190,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add build-report.md
+          [ -f runtime-smoke.md ] && git add runtime-smoke.md || true
           git commit -m "ci: web build report [skip ci]" || exit 0
           git push origin HEAD:main || echo "::warning::could not push build report"
 
