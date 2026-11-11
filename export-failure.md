@@ -1,5 +1,5 @@
-run: 43035542486
-commit: ddedefa2a6ffa196ddc71aeee10111c334639346
+run: 43036952732
+commit: f46120c2f65bb95d2654a9014b05f9af9fecbf13
 
 ```
 Using src/app as the root directory for Expo Router.
@@ -8,73 +8,108 @@ Experimental react-native-worklets Bundle Mode is enabled.
 Bundle mode is currently unstable, not recommended for production use, and may cause unexpected behavior.
 Starting Metro Bundler
 
- WARN  The package /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind contains an invalid package.json configuration. Consider raising this issue with the package maintainer(s).
-Reason: The resolution for "/home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/uniwind/components/InputAccessoryView" defined in "exports" is /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind/dist/module/components/web/InputAccessoryView.js, however this file does not exist. Falling back to file-based resolution.
- WARN  The package /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind contains an invalid package.json configuration. Consider raising this issue with the package maintainer(s).
-Reason: The resolution for "/home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/uniwind/components/InputAccessoryView" defined in "exports" is /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind/dist/module/components/web/InputAccessoryView.js, however this file does not exist. Falling back to file-based resolution.
- WARN  The package /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind contains an invalid package.json configuration. Consider raising this issue with the package maintainer(s).
-Reason: The resolution for "/home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/uniwind/components/InputAccessoryView" defined in "exports" is /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/uniwind@1.6.5_patch_hash=213f8447857f3cff31d055e780bf91ad29321417598c5170ea882503b728f9_87352c40e8e457b47b4bde1fbd977885/node_modules/uniwind/dist/module/components/web/InputAccessoryView.js, however this file does not exist. Falling back to file-based resolution.
-Web Bundling failed 144839ms index.ts (9158 modules)
-Unable to resolve "./exports/InputAccessoryView" from "node_modules/.pnpm/react-native-web@0.21.4_encoding@0.1.13_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/react-native-web/dist/index.js"
-[0m [90m 39 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mImage[39m } [36mfrom[39m [32m'./exports/Image'[39m[33m;[39m
- [90m 40 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mImageBackground[39m } [36mfrom[39m [32m'./exports/ImageBackground'[39m[33m;[39m
-[31m[1m>[22m[39m[90m 41 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mInputAccessoryView[39m } [36mfrom[39m [32m'./exports/InputAccessoryView'[39m[33m;[39m
- [90m    |[39m                                                [31m[1m^[22m[39m
- [90m 42 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mKeyboardAvoidingView[39m } [36mfrom[39m [32m'./exports/KeyboardAvoidingView'[39m[33m;[39m
- [90m 43 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mModal[39m } [36mfrom[39m [32m'./exports/Modal'[39m[33m;[39m
- [90m 44 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mPicker[39m } [36mfrom[39m [32m'./exports/Picker'[39m[33m;[39m[0m
+Web Bundling failed 127384ms index.ts (9197 modules)
+Unable to resolve "./wa-sqlite/wa-sqlite.wasm" from "node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/worker.ts"
+[0m [90m 21 |[39m [36mimport[39m [33mWaSQLiteFactory[39m [36mfrom[39m [32m'./wa-sqlite/wa-sqlite'[39m[33m;[39m
+ [90m 22 |[39m [90m// @ts-expect-error wasm module is not typed[39m
+[31m[1m>[22m[39m[90m 23 |[39m [36mimport[39m wasmModule [36mfrom[39m [32m'./wa-sqlite/wa-sqlite.wasm'[39m[33m;[39m
+ [90m    |[39m                         [31m[1m^[22m[39m
+ [90m 24 |[39m [36mimport[39m {
+ [90m 25 |[39m   type [33mConfigureWorkerMessage[39m[33m,[39m
+ [90m 26 |[39m   type [33mSQLiteWorkerMessage[39m[33m,[39m[0m
 
 Import stack:
 
- node_modules/.pnpm/react-native-web@0.21.4_encoding@0.1.13_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/react-native-web/dist/index.js
- | import "./exports/InputAccessoryView"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/worker.ts
+ | import "./wa-sqlite/wa-sqlite.wasm"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/build/renderRootComponent.js
- | import "react-native-web/dist/index"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/SQLiteModule.ts
+ | import "./worker"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/entry-classic.js
- | import "expo-router/build/renderRootComponent"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/ExpoSQLite.web.js
+ | import "../web/SQLiteModule"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/entry.js
- | import "expo-router/entry-classic"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/WebConfiguration.js
+ | import "./ExpoSQLite"
 
- index.ts
- | import "expo-router/entry"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/index.js
+ | import "./WebConfiguration"
 
- 
- | import "./index.ts"
+ src/backend/data/db/DbService.ts
+ | import "expo-sqlite"
+
+ src/backend/core/application/serviceRegistry.ts
+ | import "@/backend/data/db/DbService"
+
+ src/bootstrap/runtime/createAppBootstrapRuntime.ts
+ | import "@/backend/core/application/serviceRegistry"
+
+ src/bootstrap/runtime/AppBootstrapProvider.tsx
+ | import "@/bootstrap/runtime/createAppBootstrapRuntime"
+
+ src/bootstrap/runtime/AppBootstrapGate.tsx
+ | import "./AppBootstrapProvider"
+
+ src/bootstrap/index.ts
+ | import "./runtime/AppBootstrapGate"
+
+ src/app/_layout.tsx
+ | import "@/bootstrap"
+
+ src/app (require.context)
 
 
-Error: Unable to resolve module ./exports/InputAccessoryView from /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/react-native-web@0.21.4_encoding@0.1.13_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/react-native-web/dist/index.js: ./exports/InputAccessoryView could not be found within the project or in these directories:
-  node_modules/.pnpm/react-native-web@0.21.4_encoding@0.1.13_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules
-  node_modules/.pnpm/node_modules
-  node_modules
-[0m [90m 39 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mImage[39m } [36mfrom[39m [32m'./exports/Image'[39m[33m;[39m
- [90m 40 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mImageBackground[39m } [36mfrom[39m [32m'./exports/ImageBackground'[39m[33m;[39m
-[31m[1m>[22m[39m[90m 41 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mInputAccessoryView[39m } [36mfrom[39m [32m'./exports/InputAccessoryView'[39m[33m;[39m
- [90m    |[39m                                                [31m[1m^[22m[39m
- [90m 42 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mKeyboardAvoidingView[39m } [36mfrom[39m [32m'./exports/KeyboardAvoidingView'[39m[33m;[39m
- [90m 43 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mModal[39m } [36mfrom[39m [32m'./exports/Modal'[39m[33m;[39m
- [90m 44 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mPicker[39m } [36mfrom[39m [32m'./exports/Picker'[39m[33m;[39m[0m
+Error: Unable to resolve module ./wa-sqlite/wa-sqlite.wasm from /home/runner/work/cherry-studio-web-port/cherry-studio-web-port/upstream/node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/worker.ts: 
+
+None of these files exist:
+  * node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/wa-sqlite/wa-sqlite.wasm(.web.ts|.ts|.web.tsx|.tsx|.web.mjs|.mjs|.web.js|.js|.web.jsx|.jsx|.web.json|.json|.web.cjs|.cjs|.web.scss|.scss|.web.sass|.sass|.web.css|.css|.web.sql|.sql|.web.css|.css)
+  * node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/wa-sqlite/wa-sqlite.wasm
+[0m [90m 21 |[39m [36mimport[39m [33mWaSQLiteFactory[39m [36mfrom[39m [32m'./wa-sqlite/wa-sqlite'[39m[33m;[39m
+ [90m 22 |[39m [90m// @ts-expect-error wasm module is not typed[39m
+[31m[1m>[22m[39m[90m 23 |[39m [36mimport[39m wasmModule [36mfrom[39m [32m'./wa-sqlite/wa-sqlite.wasm'[39m[33m;[39m
+ [90m    |[39m                         [31m[1m^[22m[39m
+ [90m 24 |[39m [36mimport[39m {
+ [90m 25 |[39m   type [33mConfigureWorkerMessage[39m[33m,[39m
+ [90m 26 |[39m   type [33mSQLiteWorkerMessage[39m[33m,[39m[0m
 
 Import stack:
 
- node_modules/.pnpm/react-native-web@0.21.4_encoding@0.1.13_react-dom@19.3.0_react@19.3.0__react@19.3.0/node_modules/react-native-web/dist/index.js
- | import "./exports/InputAccessoryView"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/worker.ts
+ | import "./wa-sqlite/wa-sqlite.wasm"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/build/renderRootComponent.js
- | import "react-native-web/dist/index"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/web/SQLiteModule.ts
+ | import "./worker"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/entry-classic.js
- | import "expo-router/build/renderRootComponent"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/ExpoSQLite.web.js
+ | import "../web/SQLiteModule"
 
- node_modules/.pnpm/expo-router@58.0.29_patch_hash=231e96fb0587925929e716eb079a37f4cd6f0bc8a9dad0bbb62cfece_ec17e538f314aca3a86b20b563c087eb/node_modules/expo-router/entry.js
- | import "expo-router/entry-classic"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/WebConfiguration.js
+ | import "./ExpoSQLite"
 
- index.ts
- | import "expo-router/entry"
+ node_modules/.pnpm/expo-sqlite@58.0.15_expo@58.0.22_react-native@0.88.1_patch_hash=d90df58511c01aab1e2ce4f_f438f2f561bf606926c7d7903e38ac03/node_modules/expo-sqlite/build/index.js
+ | import "./WebConfiguration"
 
- 
- | import "./index.ts"
+ src/backend/data/db/DbService.ts
+ | import "expo-sqlite"
+
+ src/backend/core/application/serviceRegistry.ts
+ | import "@/backend/data/db/DbService"
+
+ src/bootstrap/runtime/createAppBootstrapRuntime.ts
+ | import "@/backend/core/application/serviceRegistry"
+
+ src/bootstrap/runtime/AppBootstrapProvider.tsx
+ | import "@/bootstrap/runtime/createAppBootstrapRuntime"
+
+ src/bootstrap/runtime/AppBootstrapGate.tsx
+ | import "./AppBootstrapProvider"
+
+ src/bootstrap/index.ts
+ | import "./runtime/AppBootstrapGate"
+
+ src/app/_layout.tsx
+ | import "@/bootstrap"
+
+ src/app (require.context)
 
 ```
