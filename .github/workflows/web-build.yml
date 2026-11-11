@@ -67,6 +67,11 @@ jobs:
           test -e node_modules/react-native-web/dist/exports/InputAccessoryView/index.js \
             -o -e node_modules/react-native-web/dist/exports/InputAccessoryView.js \
             || { echo "::error::react-native-web lost dist/exports/InputAccessoryView; lockfile drifted from 0.21.4"; exit 1; }
+          echo "--- InputAccessoryView entry ---"
+          ls -la node_modules/react-native-web/dist/exports/ | grep -i accessory || true
+          find node_modules/react-native-web/dist/exports/InputAccessoryView* -maxdepth 2 2>/dev/null || true
+          echo "--- shims in overlay ---"
+          ls src/web-shims | wc -l
 
       - name: Export web bundle
         working-directory: upstream
@@ -121,6 +126,61 @@ jobs:
           echo "html entry files: ${html}"
           test "$html" -ge 1 || { echo "::error::no html entry in dist-web"; exit 1; }
           if [ "$size" -lt 1 ]; then echo "::error::bundle suspiciously small"; exit 1; fi
+
+      - name: Smoke test static bundle
+        working-directory: upstream
+        run: |
+          python3 -m http.server 8099 --directory dist-web >/dev/null 2>&1 &
+          SRV=$!
+          sleep 2
+          code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8099/)
+          echo "index.html -> HTTP ${code}"
+          test "$code" = "200" || { echo "::error::index.html not served"; kill $SRV; exit 1; }
+          curl -s http://127.0.0.1:8099/ | grep -q "<script" \
+            || { echo "::error::index.html has no <script> (bundle not linked)"; kill $SRV; exit 1; }
+          js=$(curl -s http://127.0.0.1:8099/ | grep -oE 'src="[^"]+\.js"' | head -1 | sed 's/src="//;s/"//')
+          echo "main bundle: ${js}"
+          if [ -n "$js" ]; then
+            bcode=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8099${js}")
+            echo "bundle -> HTTP ${bcode}"
+            test "$bcode" = "200" || { echo "::error::main bundle not fetchable"; kill $SRV; exit 1; }
+          fi
+          kill $SRV
+
+      - name: Publish build report
+        if: success()
+        run: |
+          {
+            echo "# Web build report"
+            echo
+            echo "- run: $GITHUB_RUN_ID"
+            echo "- commit: $GITHUB_SHA"
+            echo "- upstream: CherryHQ/cherry-studio-app@a0cddfa + this overlay"
+            echo
+            echo "- run: $GITHUB_RUN_ID"
+            echo
+            echo "## dist-web top level"
+            echo '```'
+            ls -la upstream/dist-web
+            echo '```'
+            echo
+            echo "## sizes"
+            echo '```'
+            du -sh upstream/dist-web
+            du -sh upstream/dist-web/_expo 2>/dev/null || true
+            find upstream/dist-web -type f | wc -l | xargs echo "files:"
+            echo '```'
+            echo
+            echo "## asset count by extension"
+            echo '```'
+            find upstream/dist-web -type f | sed 's/.*\.//' | sort | uniq -c | sort -rn | head -20
+            echo '```'
+          } > build-report.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build-report.md
+          git commit -m "ci: web build report [skip ci]" || exit 0
+          git push origin HEAD:main || echo "::warning::could not push build report"
 
       - name: Upload web bundle artifact
         uses: actions/upload-artifact@v4
