@@ -1,16 +1,20 @@
 /**
  * Replacement for `react-native-web/dist/exports/InputAccessoryView`.
  *
- * react-native-web 0.21.4 ships this export as a directory-style entry, and in
- * some pnpm installs Metro fails to resolve it from `dist/index.js`:
- *   Unable to resolve "./exports/InputAccessoryView" from react-native-web/dist/index.js
- * which aborts the whole web bundle. The component is an iOS-only keyboard
- * accessory anyway, so on web it renders children as a plain View.
+ * react-native-web 0.21.4 resolves InputAccessoryView as a directory entry that
+ * Metro fails to find under some pnpm layouts, which aborts the web bundle.
+ *
+ * IMPORTANT: this shim must NOT import anything from react-native /
+ * react-native-web. The shim is itself required from inside react-native-web's
+ * bundle, so a reverse `import { View } from 'react-native'` creates a circular
+ * dependency: react-native-web is still initializing at that point and its View
+ * export is undefined, which crashes on mount with
+ *   TypeError: Cannot read properties of undefined (reading 'default')
+ * Render children through a plain DOM node instead.
  */
 import React from 'react';
-import { View } from 'react-native';
 
 export default function InputAccessoryView(props) {
-  const { children, style, ...rest } = props || {};
-  return React.createElement(View, { ...rest, style }, children);
+  const { children } = props || {};
+  return React.createElement('div', null, children);
 }
