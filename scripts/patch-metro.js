@@ -42,6 +42,12 @@ const SHIMS = {
   'react-native-share': 'react-native-share.web.js',
   'react-native-webview': 'react-native-webview.web.js',
   '@magrinj/expo-quick-look': 'expo-quick-look.web.js',
+  // expo-file-system's Directory/File/Paths are native-only classes; the web
+  // entry only ships a legacy singleton. Map the bare entry and both subpaths
+  // to the browser-safe shim.
+  'expo-file-system': 'expo-file-system.web.js',
+  'expo-file-system/legacy': 'expo-file-system.web.js',
+  'expo-file-system/next': 'expo-file-system.web.js',
   // RN internal subpath: pulls the native RN core onto web; stub it out.
   'react-native/Libraries/promiseRejectionTrackingOptions': 'promise-rejection-tracking.web.js',
 };
