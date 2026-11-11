@@ -61,6 +61,17 @@ ${mapLiteral}
 };
 ${ANCHOR}
   if (platform === 'web') {
+    // Any RN-internal subpath pulls the native RN core onto web (TurboModule /
+    // UIManager / BatchedBridge) and throws the __fbBatchedBridgeConfig error.
+    // Web resolves the bare react-native specifier to react-native-web, which
+    // has no such internal paths, so redirect the whole namespace to a generic
+    // no-op proxy instead of chasing which native dependency leaks it.
+    if (/^react-native\/(Libraries|src)\//.test(moduleName)) {
+      return {
+        type: 'sourceFile',
+        filePath: path.join(__dirname, 'src/web-shims', 'rn-internal.web.js'),
+      };
+    }
     // react-native-web 0.21.4 resolves InputAccessoryView as a directory entry that
     // Metro fails to find under some pnpm layouts, which aborts the web bundle:
     //   Unable to resolve "./exports/InputAccessoryView" from react-native-web/dist/index.js
