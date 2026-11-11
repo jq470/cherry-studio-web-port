@@ -66,7 +66,10 @@ ${ANCHOR}
     // Web resolves the bare react-native specifier to react-native-web, which
     // has no such internal paths, so redirect the whole namespace to a generic
     // no-op proxy instead of chasing which native dependency leaks it.
-    if (/^react-native\/(Libraries|src)\//.test(moduleName)) {
+    if (
+      moduleName.startsWith('react-native/Libraries/') ||
+      moduleName.startsWith('react-native/src/')
+    ) {
       return {
         type: 'sourceFile',
         filePath: path.join(__dirname, 'src/web-shims', 'rn-internal.web.js'),
