@@ -80,7 +80,9 @@ jobs:
           EXPO_NO_TELEMETRY: 1
         run: |
           set -o pipefail
-          npx expo export --platform web --output-dir dist-web 2>&1 | tee "$GITHUB_WORKSPACE/export.log"
+          # --no-minify + external source maps so runtime stack frames map back to
+          # readable module code in runtime-smoke.md.
+          npx expo export --platform web --output-dir dist-web --no-minify --source-maps external 2>&1 | tee "$GITHUB_WORKSPACE/export.log"
 
       - name: Surface export failure
         if: failure()
