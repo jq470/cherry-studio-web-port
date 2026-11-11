@@ -29,7 +29,6 @@ function record(uri, isDirectory) {
 class Entry {
   constructor(...uris) {
     this.uri = normalize(uris);
-    record(this.uri, this.constructor === Directory);
   }
 
   get name() {
@@ -52,7 +51,6 @@ class Entry {
 class Directory extends Entry {
   constructor(...uris) {
     super(...uris);
-    record(this.uri, true);
   }
 
   list() {
@@ -73,7 +71,6 @@ class Directory extends Entry {
 class File extends Entry {
   constructor(...uris) {
     super(...uris);
-    record(this.uri, false);
   }
 
   async readText() {
