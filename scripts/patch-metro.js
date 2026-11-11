@@ -41,6 +41,7 @@ const SHIMS = {
   'expo-intent-launcher': 'expo-intent-launcher.web.js',
   'react-native-share': 'react-native-share.web.js',
   'react-native-webview': 'react-native-webview.web.js',
+  '@magrinj/expo-quick-look': 'expo-quick-look.web.js',
 };
 
 const mapLiteral = Object.entries(SHIMS)
