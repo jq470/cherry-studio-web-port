@@ -10,11 +10,16 @@
  * This is evidence gathering: it never exits non-zero, so a runtime issue
  * surfaces in runtime-smoke.md instead of aborting the green build.
  */
-import fs from 'node:fs';
-import path from 'node:path';
+const fs = await import('node:fs');
+const path = await import('node:path');
+const os = await import('node:os');
 
 const URL = process.env.SMOKE_URL || 'http://127.0.0.1:8099/';
 const OUT = process.env.SMOKE_REPORT || path.join(process.env.GITHUB_WORKSPACE || '.', 'runtime-smoke.md');
+
+const fsExists = (p) => {
+  try { fs.statSync(p); return true; } catch { return false; }
+};
 
 const chromeCandidates = [
   '/usr/bin/google-chrome',
@@ -22,7 +27,27 @@ const chromeCandidates = [
   '/usr/bin/chromium',
   '/usr/bin/chromium-browser',
 ];
-const executablePath = chromeCandidates.find((p) => fs.existsSync(p));
+
+// GitHub runners preinstall Playwright Chromium under ~/.cache/ms-playwright or /ms-playwright.
+function findPlaywrightChrome() {
+  const roots = [
+    path.join(os.homedir(), '.cache/ms-playwright'),
+    '/ms-playwright',
+  ];
+  for (const root of roots) {
+    if (!fsExists(root)) continue;
+    let entries = [];
+    try { entries = fs.readdirSync(root); } catch { continue; }
+    for (const e of entries) {
+      if (!/^chromium/.test(e)) continue;
+      const exe = path.join(root, e, 'chrome-linux', 'chrome');
+      if (fsExists(exe)) return exe;
+    }
+  }
+  return undefined;
+}
+
+const executablePath = chromeCandidates.find(fsExists) || findPlaywrightChrome();
 
 function section(title, lines) {
   return `## ${title}\n\n${lines.length ? lines.map((l) => `- ${l}`).join('\n') : '_(none)_'}\n`;
