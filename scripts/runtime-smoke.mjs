@@ -85,11 +85,16 @@ try {
   });
   const page = await browser.newPage();
   page.on('console', (msg) => {
-    const text = msg.text().slice(0, 600);
+    const loc = msg.location();
+    const where = loc && loc.url ? ` @ ${loc.url}:${loc.lineNumber || ''}` : '';
+    const text = `${msg.text()}${where}`.slice(0, 800);
     if (msg.type() === 'error') errors.push(text);
     else if (msg.type() === 'warning') warnings.push(text);
   });
-  page.on('pageerror', (err) => errors.push(`PAGEERROR: ${String(err).slice(0, 600)}`));
+  page.on('pageerror', (err) => {
+    const stack = err && err.stack ? String(err.stack) : String(err);
+    errors.push(`PAGEERROR: ${stack.slice(0, 1200)}`);
+  });
   page.on('requestfailed', (req) => {
     const f = req.failure();
     failedRequests.push(`${req.method()} ${req.url()} ${f ? f.errorText : 'unknown'}`);
