@@ -194,6 +194,24 @@ jobs:
             echo '```'
             find upstream/dist-web -type f | sed 's/.*\.//' | sort | uniq -c | sort -rn | head -20
             echo '```'
+            echo
+            echo "## web worker / wasm inventory"
+            echo '```'
+            echo '--- wasm/bin assets ---'
+            find upstream/dist-web \( -name '*.wasm' -o -name '*.bin' \) | sort
+            echo '--- js chunks ---'
+            find upstream/dist-web -name '*.js' | sort
+            MAIN=$(find upstream/dist-web/_expo/static/js/web -name 'index-*.js' | head -1)
+            echo "--- main bundle: ${MAIN} ---"
+            if [ -n "$MAIN" ]; then
+              echo 'new Worker refs:'
+              grep -oE 'new Worker\([^)]{0,90}' "$MAIN" | head -10 || true
+              echo 'wa-sqlite refs:'
+              grep -oE 'wa-sqlite[^"'"'"']{0,60}' "$MAIN" | sort -u | head -10 || true
+              echo 'worker chunk names referenced:'
+              grep -oE '[A-Za-z0-9_-]*worker[A-Za-z0-9_-]*\.js' "$MAIN" | sort -u | head -10 || true
+            fi
+            echo '```'
           } > build-report.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
