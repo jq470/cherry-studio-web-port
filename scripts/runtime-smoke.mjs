@@ -161,6 +161,37 @@ try {
   report += section('console warnings', warnings.slice(0, 15));
   report += section('failed requests', failedRequests.slice(0, 25));
 
+  // Inspect any web workers Metro emitted (expo-sqlite wa-sqlite worker). Record
+  // the worker URL, bundle size, key symbols present, and a head snippet so we
+  // can tell whether the worker chunk actually contains the SQLite bootstrap.
+  const workerInfo = [];
+  try {
+    const workers = await page.workers();
+    for (const w of workers) {
+      const url = w.url();
+      let txt = '';
+      try {
+        txt = await page.evaluate(async (u) => (await fetch(u)).text(), url);
+      } catch (e) {
+        workerInfo.push({ url, fetchError: String(e && e.message || e) });
+        continue;
+      }
+      const symbols = ['onmessage', 'postMessage', 'wa-sqlite', 'SharedArrayBuffer', 'importScripts', 'Atomics', 'wa-sqlite.wasm'].filter((s) => txt.includes(s));
+      workerInfo.push({ url, bytes: txt.length, symbols, head: txt.slice(0, 300) });
+    }
+  } catch (e) {
+    workerInfo.push({ error: String(e && e.message || e) });
+  }
+  if (workerInfo.length) {
+    report += `\n## web workers\n\n${workerInfo.map((w) => {
+      if (w.fetchError) return `- ${w.url}: fetch failed: ${w.fetchError}`;
+      if (w.error) return `- error: ${w.error}`;
+      return `- ${w.url}\n  - bytes: ${w.bytes}\n  - symbols: ${(w.symbols || []).join(', ') || '(none)'}\n  - head:\n\`\`\`\n${w.head}\n\`\`\``;
+    }).join('\n\n')}\n`;
+  } else {
+    report += section('web workers', ['no worker created on page']);
+  }
+
   // Resolve any Metro "unknown module <id>" against the actual bundle: parse
   // every __d(id, [deps], "sourcePath") header, map the missing id to its own
   // source path (if registered) and to the parent modules that require it, so
@@ -175,6 +206,9 @@ try {
       const scripts = await page.evaluate(() =>
         Array.from(document.scripts).map((s) => s.src).filter(Boolean),
       );
+      for (const w of workerInfo) {
+        if (w.url && !scripts.includes(w.url)) scripts.push(w.url);
+      }
       const idToPath = new Map();
       const depUsers = new Map();
       for (const u of scripts) {
