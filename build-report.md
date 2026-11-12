@@ -1,19 +1,19 @@
 # Web build report
 
-- run: 43202572888
-- commit: e22ac15c7e437a7fed2f3be04f7d3067207cee4a
+- run: 43204442214
+- commit: 2b8f22815e8728044cd8c6178099ef2ae2c21708
 - upstream: CherryHQ/cherry-studio-app@a0cddfa + this overlay
 
 ## dist-web top level
 ```
 total 40
-drwxr-xr-x  4 runner runner  4096 Nov 12 10:44 .
-drwxr-xr-x 23 runner runner  4096 Nov 12 10:44 ..
-drwxr-xr-x  3 runner runner  4096 Nov 12 10:44 _expo
-drwxr-xr-x  5 runner runner  4096 Nov 12 10:44 assets
--rw-r--r--  1 runner runner 14510 Nov 12 10:44 favicon.ico
--rw-r--r--  1 runner runner  3150 Nov 12 10:44 index.html
--rw-r--r--  1 runner runner    49 Nov 12 10:44 metadata.json
+drwxr-xr-x  4 runner runner  4096 Nov 12 10:57 .
+drwxr-xr-x 23 runner runner  4096 Nov 12 10:57 ..
+drwxr-xr-x  3 runner runner  4096 Nov 12 10:57 _expo
+drwxr-xr-x  5 runner runner  4096 Nov 12 10:57 assets
+-rw-r--r--  1 runner runner 14510 Nov 12 10:57 favicon.ico
+-rw-r--r--  1 runner runner  3150 Nov 12 10:57 index.html
+-rw-r--r--  1 runner runner    49 Nov 12 10:57 metadata.json
 ```
 
 ## sizes
