@@ -25,6 +25,10 @@ export function addBreadcrumb() {}
 export function captureException() {}
 export function captureMessage() {}
 export function captureEvent() {}
+// wrapReportingRoot wraps the root component; identity passthrough on web.
+export function wrap(component) {
+  return component;
+}
 export function getClient() {
   return null;
 }
@@ -70,6 +74,7 @@ export default {
   addBreadcrumb,
   captureException,
   captureMessage,
+  wrap,
   getClient,
   getCurrentScope,
   getIsolationScope,

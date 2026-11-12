@@ -45,6 +45,16 @@ const SHIMS = {
   // RN Sentry SDK wraps native crash bindings; no browser entry. Shim to a
   // no-op SDK so configureSentry does not pull an unregistered native module.
   '@sentry/react-native': 'sentry-react-native.web.js',
+  // expo-observe native performance SDK: no web entry; its root wrapper must be
+  // an identity passthrough.
+  'expo-observe': 'expo-observe.web.js',
+  // Other native-only packages reached only through conditional native requires.
+  // Metro still bundles the static require edge, so redirect to the generic
+  // no-op proxy.
+  'expo-notifications': 'rn-internal.web.js',
+  'expo-widgets': 'rn-internal.web.js',
+  'react-native-background-actions': 'rn-internal.web.js',
+  '@preeternal/react-native-file-hash': 'rn-internal.web.js',
   // expo-file-system's Directory/File/Paths are native-only classes; the web
   // entry only ships a legacy singleton. Map the bare entry and both subpaths
   // to the browser-safe shim.
