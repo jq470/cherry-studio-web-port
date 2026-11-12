@@ -21,9 +21,19 @@
 - 运行时实际用的是 **`blob:` URL** 构造 Worker（`new Worker(workerUrl, workerOpts)`），浏览器没有再去拉独立 chunk；worker 内部报错未被冒烟脚本捕获（blob worker 的 error/pageerror 未透传到 puppeteer）。
 - 无 worker/wasm 404；失败请求只有首页 `GET / net::ERR_ABORTED`。
 
+### worker 包装机制（本轮本地源码确认）
+
+`expo/build/async-require/asyncRequireModule.js` 的 `unstable_createWorker`：当 `crossOriginIsolated` 为真时，把真实 worker chunk URL 包成一个 `Blob` 内联脚本再 `new Worker(blobUrl)`。内联脚本里：
+
+- `self.fetch`、`self.importScripts` 被重写到以真实 chunk URL 为 base 的 `fromBaseURL`；
+- **`XMLHttpRequest` 没有被重写**（源码注释明确列出该限制：blob 下 `self.location` 是 blob URL，`new URL`/XHR/WebSocket 相对解析都不会落到真实源）；
+- 内联脚本 `importScripts(真实chunkURL)` 加载 383KB 的 worker bundle。
+
+wa-sqlite.js 在 worker 下优先用 `fetch`（streaming → ArrayBuffer）加载 wasm，仅兜底走同步 XHR。因此 fetch 路径理论上被重写覆盖；仍需在产物里确认：① wasm 资产 URL 是绝对路径还是相对路径（相对路径在 blob worker 下会解析到 blob 源）；② worker chunk 是否缺主包 `__common` 里的共享模块，导致 `importScripts` 引导期抛错、`self.onmessage` 未注册。
+
 ### 次级问题：未知模块 `4109`（id 在 4913/4896/4146/4109 间漂移）
 
-`Requiring unknown module "4109"`，在主线程启动早期抛出，被 CrashTelemetry 接住后应用继续；父模块尚未定位。现有冒烟的模块映射只扫主页面脚本，需把 worker/资源 chunk 一并纳入（脚本已改，下一轮报告补全）。
+`Requiring unknown module "4109"`，在主线程启动早期抛出，被 CrashTelemetry 接住后应用继续；父模块尚未定位。冒烟脚本已修：`document.scripts` 需在浏览器 `evaluate` 内取（此前在 Node 侧访问 `document` 报 `document is not defined`，导致映射中断）；下一轮报告把缺失 id 映射到源码路径与调用方。
 
 ## 下一步排查顺序（需要能看到 runner 日志 / 下载 artifact 的环境）
 
