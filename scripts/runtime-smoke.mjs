@@ -1,13 +1,14 @@
 /**
  * Headless runtime smoke test for the exported web bundle.
  *
- * Serves nothing itself; expects a static server already listening at SMOKE_URL.
- * Launches headless Chromium, loads the page, waits for the client bundle to settle,
+ * Serves nothing itself; expects a static server already listening at SMOKE_URL
+ * (the workflow starts `python3 -m http.server` against dist-web). Launches
+ * headless Chromium, loads the page, waits for the client bundle to settle,
  * then records: console errors/warnings, uncaught page errors, failed network
  * requests, title, root mount state, and a body-text excerpt.
  *
- * Evidence gathering: it never exits non-zero, so a runtime issue surfaces in
- * runtime-smoke.md instead of aborting the green build.
+ * This is evidence gathering: it never exits non-zero, so a runtime issue
+ * surfaces in runtime-smoke.md instead of aborting the green build.
  */
 const fs = await import('node:fs');
 const path = await import('node:path');
@@ -27,8 +28,12 @@ const chromeCandidates = [
   '/usr/bin/chromium-browser',
 ];
 
+// GitHub runners preinstall Playwright Chromium under ~/.cache/ms-playwright or /ms-playwright.
 function findPlaywrightChrome() {
-  const roots = [path.join(os.homedir(), '.cache/ms-playwright'), '/ms-playwright'];
+  const roots = [
+    path.join(os.homedir(), '.cache/ms-playwright'),
+    '/ms-playwright',
+  ];
   for (const root of roots) {
     if (!fsExists(root)) continue;
     let entries = [];
@@ -96,7 +101,9 @@ try {
         ),
       );
       extra = args.filter(Boolean).join(' | ');
-    } catch {}
+    } catch {
+      /* arg inspection is best-effort */
+    }
     const text = `${msg.text()}${where}${extra ? ` || ${extra}` : ''}`.slice(0, 1200);
     if (msg.type() === 'error') errors.push(text);
     else if (msg.type() === 'warning') warnings.push(text);
@@ -119,6 +126,7 @@ try {
   await page.goto(URL, { waitUntil: 'networkidle0', timeout: 30000 }).catch((e) => {
     errors.push(`NAV: ${String(e.message).slice(0, 300)}`);
   });
+  // Give the client router + bootstrap gate time to mount.
   await new Promise((r) => setTimeout(r, 6000));
 
   const stats = await page.evaluate(() => {
@@ -153,8 +161,13 @@ try {
   report += section('console warnings', warnings.slice(0, 15));
   report += section('failed requests', failedRequests.slice(0, 25));
 
+  // Inspect any web workers Metro emitted (expo-sqlite wa-sqlite worker). Record
+  // the worker URL, bundle size, key symbols present, and a head snippet so we
+  // can tell whether the worker chunk actually contains the SQLite bootstrap.
   const workerInfo = [];
   try {
+    // Standalone worker chunks are real http(s) resources; the runtime may also
+    // wrap the worker in a blob: URL, which cannot be fetched from the page.
     const resources = await page.evaluate(() =>
       performance.getEntriesByType('resource').map((e) => e.name),
     );
@@ -162,8 +175,19 @@ try {
     const workers = await page.workers();
     for (const w of workers) {
       const url = w.url();
+      let probe = {};
+      try {
+        probe = await w.evaluate(() => ({
+          hasOnmessage: typeof self.onmessage === 'function',
+          hasPostMessage: typeof self.postMessage === 'function',
+          href: self.location && self.location.href,
+          isCrossOriginIsolated: typeof crossOriginIsolated !== 'undefined' ? crossOriginIsolated : 'n/a',
+        }));
+      } catch (e) {
+        probe = { probeError: String(e && e.message || e) };
+      }
       if (url.startsWith('blob:')) {
-        workerInfo.push({ url, note: 'blob: worker (source inlined by Metro; not fetchable from page)' });
+        workerInfo.push({ url, note: 'blob: worker (source inlined by Metro; not fetchable from page)', probe });
         continue;
       }
       let txt = '';
@@ -174,7 +198,7 @@ try {
         continue;
       }
       const symbols = ['onmessage', 'postMessage', 'wa-sqlite', 'SharedArrayBuffer', 'importScripts', 'Atomics', 'wa-sqlite.wasm'].filter((s) => txt.includes(s));
-      workerInfo.push({ url, bytes: txt.length, symbols, head: txt.slice(0, 300) });
+      workerInfo.push({ url, bytes: txt.length, symbols, head: txt.slice(0, 300), probe });
     }
     for (const u of standaloneWorkers) {
       if (workerInfo.some((w) => w.url === u)) continue;
@@ -195,13 +219,17 @@ try {
     report += `\n## web workers\n\n${workerInfo.map((w) => {
       if (w.fetchError) return `- ${w.url}: fetch failed: ${w.fetchError}`;
       if (w.error) return `- error: ${w.error}`;
-      if (w.note) return `- ${w.url}: ${w.note}`;
-      return `- ${w.url}\n  - bytes: ${w.bytes}\n  - symbols: ${(w.symbols || []).join(', ') || '(none)'}\n  - head:\n\`\`\`\n${w.head}\n\`\`\``;
+      const probeLine = w.probe ? `\n  - probe: ${JSON.stringify(w.probe)}` : '';
+      return `- ${w.url}${probeLine}\n  - bytes: ${w.bytes}\n  - symbols: ${(w.symbols || []).join(', ') || '(none)'}\n  - head:\n\`\`\`\n${w.head}\n\`\`\``;
     }).join('\n\n')}\n`;
   } else {
     report += section('web workers', ['no worker created on page']);
   }
 
+  // Resolve any Metro "unknown module <id>" against the actual bundle: parse
+  // every __d(id, [deps], "sourcePath") header, map the missing id to its own
+  // source path (if registered) and to the parent modules that require it, so
+  // the originating package is named directly in the report.
   try {
     const missingIds = new Set();
     for (const e of errors) {
@@ -209,12 +237,14 @@ try {
       if (m) missingIds.add(m[1]);
     }
     if (missingIds.size) {
+      const scriptSrcs = await page.evaluate(() =>
+        Array.from(document.scripts).map((s) => s.src).filter(Boolean),
+      );
       const resources = await page.evaluate(() =>
         performance.getEntriesByType('resource').map((e) => e.name),
       );
       const scripts = [...new Set(
-        Array.from(document.scripts).map((s) => s.src).filter(Boolean)
-          .concat(resources.filter((u) => /\.js(\?|$)/.test(u))),
+        scriptSrcs.concat(resources.filter((u) => /\.js(\?|$)/.test(u))),
       )].filter((u) => !u.startsWith('blob:'));
       for (const w of workerInfo) {
         if (w.url && !scripts.includes(w.url) && !w.url.startsWith('blob:')) scripts.push(w.url);
@@ -246,6 +276,8 @@ try {
     report += section('unknown-module analysis', [`failed: ${e.message}`]);
   }
 
+  // Pull a source snippet around every in-bundle stack frame so the failing
+  // require/import is readable even without loading source maps in the browser.
   const snippets = [];
   const seenFrames = new Set();
   for (const err of errors) {
@@ -265,7 +297,7 @@ try {
         for (let k = i - 2; k <= i + 2; k++) {
           if (lines[k]) win.push(`${k + 1}: ${lines[k].slice(0, 320)}`);
         }
-        snippets.push(`- ${key}\n\`\`\`\n${win.join('\n')}\`\`\``);
+        snippets.push(`- ${key}\n\`\`\`\n${win.join('\n')}\n\`\`\``);
       } catch (e) {
         snippets.push(`- ${key} (fetch failed: ${e.message})`);
       }
