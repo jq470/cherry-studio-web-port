@@ -63,10 +63,12 @@ const SHIMS = {
   'expo-file-system/next': 'expo-file-system.web.js',
   // RN internal subpath: pulls the native RN core onto web; stub it out.
   'react-native/Libraries/promiseRejectionTrackingOptions': 'promise-rejection-tracking.web.js',
-  // expo-sqlite left unstubbed for one diagnostic run so the CI report can
-  // inventory whether Metro emits the wa-sqlite worker chunk + wasm for web.
-  // Re-add: 'expo-sqlite': 'expo-sqlite.web.js', if the real chain cannot be
-  // fixed in static export.
+  // expo-sqlite's official web build runs wa-sqlite inside a blob-URL Worker and
+  // waits on it through SharedArrayBuffer + Atomics; in a Metro static export the
+  // worker never answers, so openDatabaseSync throws "Sync operation timeout".
+  // Replace the whole module with a main-thread, synchronous SQLite (sql.js) that
+  // supports INSERT ... RETURNING, which drizzle's insertWithOrderKey requires.
+  'expo-sqlite': 'expo-sqlite.web.js',
 };
 
 const mapLiteral = Object.entries(SHIMS)
