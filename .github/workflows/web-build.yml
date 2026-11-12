@@ -7,7 +7,6 @@ on:
 
 env:
   UPSTREAM_REPO: CherryHQ/cherry-studio-app
-  # Pinned upstream commit this overlay was built against (local clone HEAD).
   UPSTREAM_REF: a0cddfa51026675abe69b7a7b9ee37a529ac4e32
   NODE_VERSION: 24
   PNPM_VERSION: 12.2.1
@@ -50,11 +49,23 @@ jobs:
           corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
           pnpm --version
 
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-store-${{ runner.os }}
+
       - name: Install dependencies
         working-directory: upstream
         env:
           CI: 1
         run: pnpm install --frozen-lockfile
+
+      - name: Cache Metro transform
+        uses: actions/cache@v4
+        with:
+          path: upstream/node_modules/.cache
+          key: metro-cache-${{ runner.os }}
 
       - name: Verify resolved web deps
         working-directory: upstream
@@ -62,8 +73,6 @@ jobs:
           node -e "console.log('react-native-web:', require('react-native-web/package.json').version)"
           node -e "console.log('react-dom:', require('react-dom/package.json').version)"
           node -e "console.log('expo:', require('expo/package.json').version)"
-          # 0.21.4 ships dist/exports/InputAccessoryView/index.js; later 0.21.x dropped
-          # it while dist/index.js still imports that path, which breaks the web bundle.
           test -e node_modules/react-native-web/dist/exports/InputAccessoryView/index.js \
             -o -e node_modules/react-native-web/dist/exports/InputAccessoryView.js \
             || { echo "::error::react-native-web lost dist/exports/InputAccessoryView; lockfile drifted from 0.21.4"; exit 1; }
@@ -80,15 +89,12 @@ jobs:
           EXPO_NO_TELEMETRY: 1
         run: |
           set -o pipefail
-          # --dev so __DEV__=true: the app logger only mirrors to console.error in
-          # development, otherwise bootstrap errors are swallowed by the boundary.
-          # --no-minify + external source maps so stack frames stay readable.
           npx expo export --platform web --output-dir dist-web --dev --no-minify --source-maps external 2>&1 | tee "$GITHUB_WORKSPACE/export.log"
 
       - name: Surface export failure
         if: failure()
         run: |
-          echo "::error::export failed - last log lines follow (annotations are public, full log needs sign-in)"
+          echo "::error::export failed - last log lines follow"
           if [ -f export.log ]; then
             tail -n 40 export.log | while IFS= read -r line; do
               line="${line//%/%25}"
@@ -114,14 +120,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add export-failure.md
           git commit -m "ci: record export failure [skip ci]" || exit 0
-          # checkout runs detached on push events, so name the branch explicitly
           git push origin HEAD:main || echo "::warning::could not push failure log"
 
       - name: Verify bundle output
         working-directory: upstream
         run: |
           test -d dist-web || { echo "::error::dist-web/ was not created"; exit 1; }
-          echo "--- dist-web tree (top level) ---"
           ls -la dist-web
           size=$(du -sm dist-web | cut -f1)
           echo "bundle size: ${size} MB"
@@ -140,7 +144,7 @@ jobs:
           echo "index.html -> HTTP ${code}"
           test "$code" = "200" || { echo "::error::index.html not served"; kill $SRV; exit 1; }
           curl -s http://127.0.0.1:8099/ | grep -q "<script" \
-            || { echo "::error::index.html has no <script> (bundle not linked)"; kill $SRV; exit 1; }
+            || { echo "::error::index.html has no <script>"; kill $SRV; exit 1; }
           js=$(curl -s http://127.0.0.1:8099/ | grep -oE 'src="[^"]+\.js"' | head -1 | sed 's/src="//;s/"//')
           echo "main bundle: ${js}"
           if [ -n "$js" ]; then
@@ -158,10 +162,6 @@ jobs:
           SMOKE_REPORT: ${{ github.workspace }}/runtime-smoke.md
         run: |
           npm i --prefix "$GITHUB_WORKSPACE" --no-save --no-audit --no-fund puppeteer-core@24 >/dev/null
-          # expo-sqlite/wa-sqlite needs SharedArrayBuffer, which requires
-          # cross-origin isolation headers; python's http.server does not send
-          # them, so serve dist-web with the overlay static server that adds
-          # COOP/COEP.
           node web-proxy/static-server.js dist-web 8099 >/dev/null 2>&1 &
           SRV=$!
           sleep 2
@@ -210,6 +210,16 @@ jobs:
               grep -oE 'wa-sqlite[^"'"'"']{0,60}' "$MAIN" | sort -u | head -10 || true
               echo 'worker chunk names referenced:'
               grep -oE '[A-Za-z0-9_-]*worker[A-Za-z0-9_-]*\.js' "$MAIN" | sort -u | head -10 || true
+              WORKER=$(find upstream/dist-web -name 'worker-*.js' | head -1)
+              echo "--- worker chunk: ${WORKER} ---"
+              if [ -n "$WORKER" ]; then
+                wc -c "$WORKER"
+                echo 'worker symbols:'
+                grep -oE 'onmessage|postMessage|wa-sqlite|SharedArrayBuffer|importScripts|Atomics|wa-sqlite\.wasm' "$WORKER" | sort | uniq -c || true
+                echo 'worker head:'
+                head -c 500 "$WORKER"
+                echo
+              fi
             fi
             echo '```'
           } > build-report.md
