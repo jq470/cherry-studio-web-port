@@ -1,19 +1,19 @@
 # Web build report
 
-- run: 43204442214
-- commit: 2b8f22815e8728044cd8c6178099ef2ae2c21708
+- run: 43206967386
+- commit: f6817a747346d43cd2ffe33dc22195e80948aaa0
 - upstream: CherryHQ/cherry-studio-app@a0cddfa + this overlay
 
 ## dist-web top level
 ```
 total 40
-drwxr-xr-x  4 runner runner  4096 Nov 12 10:57 .
-drwxr-xr-x 23 runner runner  4096 Nov 12 10:57 ..
-drwxr-xr-x  3 runner runner  4096 Nov 12 10:57 _expo
-drwxr-xr-x  5 runner runner  4096 Nov 12 10:57 assets
--rw-r--r--  1 runner runner 14510 Nov 12 10:57 favicon.ico
--rw-r--r--  1 runner runner  3150 Nov 12 10:57 index.html
--rw-r--r--  1 runner runner    49 Nov 12 10:57 metadata.json
+drwxr-xr-x  4 runner runner  4096 Nov 12 11:13 .
+drwxr-xr-x 23 runner runner  4096 Nov 12 11:13 ..
+drwxr-xr-x  3 runner runner  4096 Nov 12 11:13 _expo
+drwxr-xr-x  5 runner runner  4096 Nov 12 11:13 assets
+-rw-r--r--  1 runner runner 14510 Nov 12 11:13 favicon.ico
+-rw-r--r--  1 runner runner  3150 Nov 12 11:13 index.html
+-rw-r--r--  1 runner runner    49 Nov 12 11:13 metadata.json
 ```
 
 ## sizes
@@ -114,4 +114,16 @@ new Worker(workerUrl, workerOpts
 new Worker(workerUrl, workerOpts
 wa-sqlite refs:
 worker chunk names referenced:
+--- worker chunk: upstream/dist-web/_expo/static/js/web/worker-d41d8cd98f00b204e9800998ecf8427e.js ---
+383037 upstream/dist-web/_expo/static/js/web/worker-d41d8cd98f00b204e9800998ecf8427e.js
+worker symbols:
+      9 Atomics
+      2 SharedArrayBuffer
+      1 onmessage
+      5 postMessage
+     36 wa-sqlite
+      3 wa-sqlite.wasm
+worker head:
+var __BUNDLE_START_TIME__=globalThis.nativePerformanceNow?nativePerformanceNow():Date.now(),__DEV__=true,process=globalThis.process||{},__METRO_GLOBAL_PREFIX__='',__requireCycleIgnorePatterns=[/(^|\/|\\)node_modules($|\/|\\)/],__unstable_forceFullRefreshPatterns=[];process.env=process.env||{};process.env.NODE_ENV=process.env.NODE_ENV||"development";
+var _sentryDebugIds,_sentryDebugIdIdentifier;void 0===_sentryDebugIds&&(_sentryDebugIds={});try{var stack=(new Error).stack;stack&&(_sentryDebugIds[
 ```

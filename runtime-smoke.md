@@ -1,7 +1,7 @@
 # Runtime smoke report
 
 - url: http://127.0.0.1:8099/
-- time: 2026-11-12T10:57:13.940Z
+- time: 2026-11-12T11:13:59.366Z
 
 ## page
 
@@ -49,6 +49,15 @@ Error: Requiring unknown module "4109". If you are sure the module exists, try r
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
+- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
+- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
+    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
+    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
+    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
+    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
+    at metroReq
 - WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
 - WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
 - [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
@@ -67,7 +76,6 @@ Error: Requiring unknown module "4109". If you are sure the module exists, try r
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
 - [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
 Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
@@ -77,22 +85,6 @@ Error: Requiring unknown module "4109". If you are sure the module exists, try r
     at metroReq
 - WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
 - WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
-    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
-    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
-    at metroReq
-- [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
-    at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
-    at loadModuleImplementation (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:277:13)
-    at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
-    at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
-    at metroReq
-- WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
 - [Lifecycle] Service 'DbService' failed to initialize (fail-fast) Error: Sync operation timeout [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [Lifecycle] Service 'DbService' failed to initialize (fail-fast) | [Error] Sync operation timeout
 Error: Sync operation timeout
     at invokeWorkerSync (eval at <anonymous> (http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242849:16), <anonymous>:5873:17)
@@ -117,10 +109,10 @@ _(none)_
 
 ## web workers
 
-- blob:http://127.0.0.1:8099/b291f78c-87e0-4c97-baa5-54456f9f4458: fetch failed: Failed to fetch
+- blob:http://127.0.0.1:8099/1df29b4b-1304-4f4f-9647-512059aaead1: blob: worker (source inlined by Metro; not fetchable from page)
 ## unknown-module analysis
 
-- failed: Failed to fetch
+- failed: document is not defined
 
 ## source snippets
 
