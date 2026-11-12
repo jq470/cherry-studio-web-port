@@ -1,7 +1,7 @@
 # Runtime smoke report
 
 - url: http://127.0.0.1:8099/
-- time: 2026-11-12T11:24:28.694Z
+- time: 2026-11-12T13:20:51.613Z
 
 ## page
 
@@ -68,7 +68,6 @@ Error: Requiring unknown module "4109". If you are sure the module exists, try r
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
 - WebSocket connection to 'ws://127.0.0.1:8099/hot' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240583
-- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
 - [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
 Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
@@ -76,6 +75,7 @@ Error: Requiring unknown module "4109". If you are sure the module exists, try r
     at guardedLoadModule (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:209:23)
     at metroRequire (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:122:75)
     at metroReq
+- WebSocket connection to 'ws://127.0.0.1:8099/message' failed: Error during WebSocket handshake: Unexpected response code: 200 @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:242478
 - [CrashTelemetry] Uncaught JavaScript exception Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`. [object Object] @ http://127.0.0.1:8099/_expo/static/js/web/index-8be6aaf3afaf928efd06b2317a59f07f.js:240222 || [CrashTelemetry] Uncaught JavaScript exception | [Error] Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
 Error: Requiring unknown module "4109". If you are sure the module exists, try restarting Metro. You may also want to run `yarn` or `npm install`.
     at unknownModuleError (http://127.0.0.1:8099/_expo/static/js/web/__expo-metro-runtime-d41d8cd98f00b204e9800998ecf8427e.js:358:12)
@@ -106,11 +106,10 @@ _(none)_
 ## failed requests
 
 - GET http://127.0.0.1:8099/ net::ERR_ABORTED
-- GET http://127.0.0.1:8099/ net::ERR_ABORTED
 
 ## web workers
 
-- blob:http://127.0.0.1:8099/8d44e38d-3124-4dbe-b27d-091ba0c4bd90: blob: worker (source inlined by Metro; not fetchable from page)
+- blob:http://127.0.0.1:8099/2ccd1c9e-c944-4f0e-92cb-bd4caab8b794: blob: worker (source inlined by Metro; not fetchable from page)
 ## unknown-module analysis
 
 - failed: document is not defined
