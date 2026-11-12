@@ -116,6 +116,12 @@ try {
     const f = req.failure();
     failedRequests.push(`${req.method()} ${req.url()} ${f ? f.errorText : 'unknown'}`);
   });
+  page.on('workercreated', (worker) => {
+    worker.on('error', (err) => errors.push(`WORKER ERROR: ${String(err).slice(0, 600)}`));
+    worker.on('pageerror', (err) =>
+      errors.push(`WORKER PAGEERROR: ${String((err && err.stack) || err).slice(0, 600)}`),
+    );
+  });
 
   await page.goto(URL, { waitUntil: 'networkidle0', timeout: 30000 }).catch((e) => {
     errors.push(`NAV: ${String(e.message).slice(0, 300)}`);
@@ -131,6 +137,11 @@ try {
       bodyText: (document.body.innerText || '').trim().slice(0, 400),
       htmlLength: document.documentElement.outerHTML.length,
       rootHtml: root ? root.outerHTML.slice(0, 300) : '(no #root)',
+      crossOriginIsolated: typeof crossOriginIsolated !== 'undefined' ? crossOriginIsolated : 'n/a',
+      hasSharedArrayBuffer: typeof SharedArrayBuffer !== 'undefined',
+      hasWorker: typeof Worker !== 'undefined',
+      hasWebAssembly: typeof WebAssembly !== 'undefined',
+      hardwareConcurrency: navigator.hardwareConcurrency,
     };
   });
 
@@ -138,6 +149,11 @@ try {
     `title: ${stats.title}`,
     `#root children: ${stats.rootChildren}`,
     `html length: ${stats.htmlLength}`,
+    `crossOriginIsolated: ${stats.crossOriginIsolated}`,
+    `SharedArrayBuffer: ${stats.hasSharedArrayBuffer}`,
+    `Worker: ${stats.hasWorker}`,
+    `WebAssembly: ${stats.hasWebAssembly}`,
+    `hardwareConcurrency: ${stats.hardwareConcurrency}`,
   ]);
   report += `\n## body excerpt\n\n\`\`\`\n${stats.bodyText || '(empty)'}\n\`\`\`\n\n`;
   report += `\n## root excerpt\n\n\`\`\`\n${stats.rootHtml}\n\`\`\`\n\n`;
@@ -207,7 +223,7 @@ try {
         for (let k = i - 2; k <= i + 2; k++) {
           if (lines[k]) win.push(`${k + 1}: ${lines[k].slice(0, 320)}`);
         }
-        snippets.push(`- ${key}\n\`\`\`\n${win.join('\n')}\n\`\`\``);
+        snippets.push(`- ${key}\n\`\`\`\n${win.join('\n')}\`\`\``);
       } catch (e) {
         snippets.push(`- ${key} (fetch failed: ${e.message})`);
       }

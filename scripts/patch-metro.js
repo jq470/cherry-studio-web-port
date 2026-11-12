@@ -63,6 +63,11 @@ const SHIMS = {
   'expo-file-system/next': 'expo-file-system.web.js',
   // RN internal subpath: pulls the native RN core onto web; stub it out.
   'react-native/Libraries/promiseRejectionTrackingOptions': 'promise-rejection-tracking.web.js',
+  // expo-sqlite drives wa-sqlite in a Worker over SAB/Atomics; the worker does
+  // not answer in the static-export smoke run (sync timeout). Shim to an
+  // in-memory no-op connection so the shell boots. Real wa-sqlite persistence
+  // is a follow-up validated in a real isolated browser.
+  'expo-sqlite': 'expo-sqlite.web.js',
 };
 
 const mapLiteral = Object.entries(SHIMS)
