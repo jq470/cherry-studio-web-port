@@ -76,6 +76,7 @@ jobs:
       - name: Export web bundle
         working-directory: upstream
         env:
+          PROFILE: production
           EXPO_NO_TELEMETRY: 1
         run: |
           set -o pipefail
@@ -157,7 +158,11 @@ jobs:
           SMOKE_REPORT: ${{ github.workspace }}/runtime-smoke.md
         run: |
           npm i --prefix "$GITHUB_WORKSPACE" --no-save --no-audit --no-fund puppeteer-core@24 >/dev/null
-          python3 -m http.server 8099 --directory dist-web >/dev/null 2>&1 &
+          # expo-sqlite/wa-sqlite needs SharedArrayBuffer, which requires
+          # cross-origin isolation headers; python's http.server does not send
+          # them, so serve dist-web with the overlay static server that adds
+          # COOP/COEP.
+          node web-proxy/static-server.mjs dist-web 8099 >/dev/null 2>&1 &
           SRV=$!
           sleep 2
           node ../scripts/runtime-smoke.mjs || true

@@ -42,6 +42,9 @@ const SHIMS = {
   'react-native-share': 'react-native-share.web.js',
   'react-native-webview': 'react-native-webview.web.js',
   '@magrinj/expo-quick-look': 'expo-quick-look.web.js',
+  // RN Sentry SDK wraps native crash bindings; no browser entry. Shim to a
+  // no-op SDK so configureSentry does not pull an unregistered native module.
+  '@sentry/react-native': 'sentry-react-native.web.js',
   // expo-file-system's Directory/File/Paths are native-only classes; the web
   // entry only ships a legacy singleton. Map the bare entry and both subpaths
   // to the browser-safe shim.
