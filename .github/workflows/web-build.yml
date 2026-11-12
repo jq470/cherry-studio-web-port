@@ -162,7 +162,7 @@ jobs:
           # cross-origin isolation headers; python's http.server does not send
           # them, so serve dist-web with the overlay static server that adds
           # COOP/COEP.
-          node web-proxy/static-server.mjs dist-web 8099 >/dev/null 2>&1 &
+          node web-proxy/static-server.js dist-web 8099 >/dev/null 2>&1 &
           SRV=$!
           sleep 2
           node ../scripts/runtime-smoke.mjs || true
